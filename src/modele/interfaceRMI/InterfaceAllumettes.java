@@ -3,12 +3,11 @@ package modele.interfaceRMI;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.UUID;
-import modele.pojo.PartieAllumettes;
 
 public interface InterfaceAllumettes extends Remote {
 	
 	/**
-	 * @return L'id de la partie créée
+	 * @return L'id de la partie creee
 	 * @throws RemoteException
 	 */
 	public UUID creerPartie() throws RemoteException;
@@ -27,14 +26,14 @@ public interface InterfaceAllumettes extends Remote {
 	
 	
 	/**
-	 * @return Le maximum d'allumettes sélectionnables
+	 * @return Le maximum d'allumettes selectionnables
 	 * @throws RemoteException
 	 */
 	public int maxAllumettes(UUID uuid) throws RemoteException;
 	
 	
 	/**
-	 * @return Une chaîne du nom du joueur gagnant
+	 * @return Une chaene du nom du joueur gagnant
 	 * @throws RemoteException
 	 */
 	public String nomGagnant(UUID uuid) throws RemoteException;
@@ -48,21 +47,33 @@ public interface InterfaceAllumettes extends Remote {
 	
 	
 	/**
-	 * @return Une chaîne du nom du joueur qui doit jouer pour ce tour
+	 * @return Une chaene du nom du joueur qui doit jouer pour ce tour
 	 * @throws RemoteException
 	 */
 	public String nomJoueurTour(UUID uuid) throws RemoteException;
 	
 	
 	/**
-	 * @return L'objet partie de jeu instancié
+	 * @return L'objet partie de jeu instancie
 	 * @throws RemoteException
 	 */
-	public PartieAllumettes getPartieAllumettes(UUID uuid) throws RemoteException;
+	public int[] getTabScore(UUID uuid) throws RemoteException;
+	
+	/**
+	 * @return L'objet partie de jeu instancie
+	 * @throws RemoteException
+	 */
+	public int getNbAllumettes(UUID uuid) throws RemoteException;
+	
+	/**
+	 * @return L'objet partie de jeu instancie
+	 * @throws RemoteException
+	 */
+	public int getTour(UUID uuid) throws RemoteException;
 	
 	
 	/**
-	 * @return Le nombre d'allumettes sélectionnées par le serveur
+	 * @return Le nombre d'allumettes selectionnees par le serveur
 	 * @throws RemoteException
 	 */
 	public int coupIA(UUID uuid) throws RemoteException;

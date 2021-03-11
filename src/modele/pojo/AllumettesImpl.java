@@ -9,9 +9,6 @@ import java.util.UUID;
 
 public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllumettes {
 	
-	private static final long serialVersionUID = 1L;
-
-	// private PartieAllumettes partieAllumettes = new PartieAllumettes();
 	private Hashtable<UUID, PartieAllumettes> listeParties = new Hashtable<UUID, PartieAllumettes>();
 
 	public AllumettesImpl() throws RemoteException {
@@ -28,7 +25,7 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
 	}
 	
 	@Override
-	// Fonction renvoyant le nombre d'allumettes de d�part. Limite d'allumettes fix�e � 21. 
+	// Fonction renvoyant le nombre d'allumettes de depart. Limite d'allumettes fixee a 21. 
 	public void initialise(UUID uuid) {
 		Random rand = new Random();
 		int n = 0;
@@ -73,8 +70,21 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
 	}
 	
 	@Override
-	public PartieAllumettes getPartieAllumettes(UUID uuid) {
-		return this.listeParties.get(uuid);
+	public int[] getTabScore(UUID uuid) throws RemoteException {
+		
+		return this.listeParties.get(uuid).getTabScore();
+	}
+	
+	@Override
+	public int getNbAllumettes(UUID uuid) throws RemoteException {
+		
+		return this.listeParties.get(uuid).getNbAllumettes();
+	}
+	
+	@Override
+	public int getTour(UUID uuid) throws RemoteException {
+		
+		return this.listeParties.get(uuid).getTour();
 	}
 	
 	@Override
