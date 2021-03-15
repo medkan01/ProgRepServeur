@@ -9,6 +9,7 @@ import java.util.UUID;
 
 public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllumettes {
 	
+	private static final long serialVersionUID = 1L;
 	private Hashtable<UUID, PartieAllumettes> listeParties = new Hashtable<UUID, PartieAllumettes>();
 
 	public AllumettesImpl() throws RemoteException {

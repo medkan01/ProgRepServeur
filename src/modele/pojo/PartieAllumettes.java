@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class PartieAllumettes implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private int[] tabScore = new int[2];
 	private int nbAllumettes;
 	private int tour;
