@@ -4,6 +4,7 @@ import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import modele.pojo.AllumettesImpl;
 import modele.pojo.PenduImpl;
+import modele.pojo.TicTacToeImpl;
 
 public class Serveur {
     public static void main(String[] args) {
@@ -16,9 +17,11 @@ public class Serveur {
             // Implementation des differentes classes que le client va pouvoir utiliser.
             AllumettesImpl allumettesImpl = new AllumettesImpl();
             PenduImpl penduImpl = new PenduImpl();
+            TicTacToeImpl ticTacToeImpl = new TicTacToeImpl();
             // Creation des routes pour que le client puisse utiliser les methodes des classes ci-dessus.
             Naming.rebind("rmi://" + hote + ":" + port + "/Allumettes", allumettesImpl);
             Naming.rebind("rmi://" + hote + ":" + port + "/Pendu", penduImpl);
+            Naming.rebind("rmi://" + hote + ":" + port + "/TicTacToe", ticTacToeImpl);
             // Le serveur est pret à être utilisé.
             System.out.println("Le serveur est prêt.");
         } catch(Exception e) {
