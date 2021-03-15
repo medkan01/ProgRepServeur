@@ -15,8 +15,17 @@
             "name": "Launch Serveur",
             "request": "launch",
             "mainClass": "serveur.Serveur",
-            "projectName": "ProgRepServeur_b46b7f80",
-            "args": ["localhost", "3000"]
+            "projectName": "ProgRepServeur_b46b7f80"
+        },
+        {
+            "type": "java",
+            "name": "Launch Serveur(1)",
+            "request": "launch",
+            "mainClass": "serveur.Serveur",
+            "projectName": "ProgRepServeur",
+            "args": [
+                "localhost",
+                "3000"]
         }
     ]
 }
