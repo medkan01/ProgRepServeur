@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Serveur",
+            "request": "launch",
+            "mainClass": "serveur.Serveur",
+            "projectName": "ProgRepServeur"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -16,7 +23,10 @@
             "request": "launch",
             "mainClass": "serveur.Serveur",
             "projectName": "ProgRepServeur_b46b7f80",
-            "args": ["localhost", "3000"]
+            "args": [
+                "localhost",
+                "3000"
+            ]
         }
     ]
 }

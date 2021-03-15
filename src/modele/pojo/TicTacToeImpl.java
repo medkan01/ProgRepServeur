@@ -39,5 +39,4 @@ public class TicTacToeImpl implements InterfaceTicTacToe {
 
         return coord;
     }
-
 }
