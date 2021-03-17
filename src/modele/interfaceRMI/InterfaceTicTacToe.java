@@ -22,4 +22,20 @@ public interface InterfaceTicTacToe extends Remote{
      * @throws Exception Contraintes des arguments.
      */
     public String[][] remplirCase(int x, int y, int joueur, String[][] coord) throws Exception;
+
+    public boolean verifierLignes(int x, String[][] coord, String symbole) throws RemoteException;
+
+    public boolean verifierCase(int x, int y, String[][] coord) throws RemoteException;
+
+    public boolean verifierColones(int y, String[][] coord, String symbole) throws RemoteException;
+
+    public boolean verifierDiagonale1(String[][] coord, String symbole) throws RemoteException;
+
+    public boolean verifierDiagonale2(String[][] coord, String symbole) throws RemoteException;
+
+    public boolean verifierDiagonales(String[][] coord, String symbole) throws RemoteException;
+
+    public boolean verifierTour(int x, int y, String[][] coord, String symbole) throws RemoteException;
+
+    public boolean grilleRemplie(String[][] coord) throws RemoteException;
 }
