@@ -12,7 +12,7 @@
         },
         {
             "type": "java",
-            "name": "Launch Serveur",
+            "name": "Launch Serveur(1)",
             "request": "launch",
             "mainClass": "serveur.Serveur",
             "projectName": "ProgRepServeur",
