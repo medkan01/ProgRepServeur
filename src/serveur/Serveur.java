@@ -25,7 +25,7 @@ public class Serveur {
             // Le serveur est pret à être utilisé.
             System.out.println("Le serveur est prêt.");
         } catch(Exception e) {
-            System.out.println("Une erreur est survenue:\n" + e);
+            System.out.println("Une erreur est survenue:\n" + e.getMessage());
         }
     }
 }
