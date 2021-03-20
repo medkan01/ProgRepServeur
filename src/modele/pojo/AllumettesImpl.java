@@ -2,14 +2,15 @@ package modele.pojo;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Random;
 import modele.interfaceRMI.*;
 import java.util.UUID;
 
 public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllumettes {
 	
-	private static final long serialVersionUID = 1L;
 	private Hashtable<UUID, PartieAllumettes> listeParties = new Hashtable<UUID, PartieAllumettes>();
 
 	public AllumettesImpl() throws RemoteException {
@@ -17,17 +18,26 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
 	}
 	
 	@Override
-	public UUID creerPartie() {
+	public UUID creerPartie(String mode) {
 		UUID uuid = UUID.randomUUID();
-		
-		listeParties.put(uuid, new PartieAllumettes());
+		if (mode.equals("solo")) {
+			listeParties.put(uuid, new PartieAllumettes());
+			listeParties.get(uuid).setNomJoueur2("ordinateur");
+		}
+		else {
+			for(Map.Entry entry: listeParties.entrySet()) {
+	            PartieAllumettes pa = (PartieAllumettes) entry.getValue();
+	            if (pa.getModeJeu().equals(mode) && pa.getNbJoueurs() != 2)
+	            	return (UUID) entry.getKey();
+	        }
+			listeParties.put(uuid, new PartieAllumettes());
+		}
 		
 		return uuid;
 	}
 	
 	@Override
-	// Fonction renvoyant le nombre d'allumettes de depart. Limite d'allumettes fixee a 21. 
-	public void initialise(UUID uuid) {
+	public void initialise(UUID uuid, String mode, String nomJoueur) {
 		Random rand = new Random();
 		int n = 0;
         while ( n<3 || (n%2==0) ) {
@@ -37,6 +47,9 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
         listeParties.get(uuid).setNbAllumettes(n);
         listeParties.get(uuid).setTabScore(new int[] {0,0});
         listeParties.get(uuid).setTour(rand.nextInt(2));
+        listeParties.get(uuid).setModeJeu(mode);
+        listeParties.get(uuid).setNbJoueurs(1);
+        listeParties.get(uuid).setNomJoueur1(nomJoueur);
 	}
 	
 	@Override
@@ -47,45 +60,68 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
 	}
 	
 	@Override
+	public void rejoindrePartie(UUID uuid, String nomJoueur) {
+		listeParties.get(uuid).setNbJoueurs(listeParties.get(uuid).getNbJoueurs()+1);
+		listeParties.get(uuid).setNomJoueur2(nomJoueur);
+	}
+	
+	@Override
 	public int maxAllumettes(UUID uuid) {
 		return Math.min(2, listeParties.get(uuid).getNbAllumettes());
 	}
 	
 	@Override
-	public String nomGagnant(UUID uuid) {
-		int[] tabScore = listeParties.get(uuid).getTabScore();
+	public void finPartie(UUID uuid) {
+		listeParties.get(uuid).setNbJoueurs(listeParties.get(uuid).getNbJoueurs()-1);
 		
-		return (tabScore[0]%2 == 0 ? "vous":"l'ordinateur");
+		if (listeParties.get(uuid).getNbJoueurs() == 0)
+			listeParties.remove(uuid);
+	}
+	
+	@Override
+	public String nomGagnant(UUID uuid) {
+		PartieAllumettes pa = listeParties.get(uuid);
+		
+		return (pa.getTabScore()[0]%2 == 0 ? pa.getNomJoueur2() : pa.getNomJoueur1());
 	}
 	
 	@Override
 	public int scoreGagnant(UUID uuid) {
-		int[] tabScore = listeParties.get(uuid).getTabScore();
+		PartieAllumettes pa = listeParties.get(uuid);
 		
-		return (tabScore[0]%2 == 0 ? tabScore[1]:tabScore[0]);
+		return (pa.getTabScore()[0]%2 == 0 ? pa.getTabScore()[1] : pa.getTabScore()[0]);
 	}
 	
 	@Override
 	public String nomJoueurTour(UUID uuid) {
-		return (listeParties.get(uuid).getTour()%2 == 0 ? "l'ordinateur":"vous");
+		PartieAllumettes pa = listeParties.get(uuid);
+		
+		return (pa.getTour()%2 == 0 ? pa.getNomJoueur1() : pa.getNomJoueur2());
 	}
 	
 	@Override
 	public int[] getTabScore(UUID uuid) throws RemoteException {
-		
-		return this.listeParties.get(uuid).getTabScore();
+		return listeParties.get(uuid).getTabScore();
 	}
 	
 	@Override
 	public int getNbAllumettes(UUID uuid) throws RemoteException {
-		
-		return this.listeParties.get(uuid).getNbAllumettes();
+		return listeParties.get(uuid).getNbAllumettes();
 	}
 	
 	@Override
 	public int getTour(UUID uuid) throws RemoteException {
-		
-		return this.listeParties.get(uuid).getTour();
+		return listeParties.get(uuid).getTour();
+	}
+	
+	@Override
+	public int getNbJoueurs(UUID uuid) throws RemoteException {
+		return listeParties.get(uuid).getNbJoueurs();
+	}
+	
+	@Override
+	public String getMode(UUID uuid) throws RemoteException {
+		return listeParties.get(uuid).getModeJeu();
 	}
 	
 	@Override
@@ -93,5 +129,25 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
 		Random random = new Random();
 		
 		return random.nextInt(maxAllumettes(uuid))+1;
+	}
+
+	@Override
+	public String getNJ1(UUID uuid) throws RemoteException {
+		return listeParties.get(uuid).getNomJoueur1();
+	}
+
+	@Override
+	public String getNJ2(UUID uuid) throws RemoteException {
+		return listeParties.get(uuid).getNomJoueur2();
+	}
+
+	@Override
+	public ArrayList<String> getAllRetiree(UUID uuid) throws RemoteException {
+		return listeParties.get(uuid).getAllumettesRetiree();
+	}
+
+	@Override
+	public void setAllRetiree(UUID uuid, ArrayList<String> tab) throws RemoteException {
+		listeParties.get(uuid).setAllumettesRetiree(tab);
 	}
 }
