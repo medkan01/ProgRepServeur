@@ -14,16 +14,19 @@ public class Serveur {
             String hote = args[0];
             int port = Integer.parseInt(args[1]);
             LocateRegistry.createRegistry(port);
+            
             // Implementation des differentes classes que le client va pouvoir utiliser.
             AllumettesImpl allumettesImpl = new AllumettesImpl();
             PenduImpl penduImpl = new PenduImpl();
             TicTacToeImpl ticTacToeImpl = new TicTacToeImpl();
+            
             // Creation des routes pour que le client puisse utiliser les methodes des classes ci-dessus.
             Naming.rebind("rmi://" + hote + ":" + port + "/Allumettes", allumettesImpl);
             Naming.rebind("rmi://" + hote + ":" + port + "/Pendu", penduImpl);
             Naming.rebind("rmi://" + hote + ":" + port + "/TicTacToe", ticTacToeImpl);
-            // Le serveur est pret à être utilisé.
-            System.out.println("Le serveur est prêt.");
+            
+            // Le serveur est pret a�etre utilise.
+            System.out.println("Le serveur est pret.");
         } catch(Exception e) {
             System.out.println("Une erreur est survenue:\n" + e.getMessage());
         }

@@ -150,4 +150,16 @@ public class AllumettesImpl extends UnicastRemoteObject implements InterfaceAllu
 	public void setAllRetiree(UUID uuid, ArrayList<String> tab) throws RemoteException {
 		listeParties.get(uuid).setAllumettesRetiree(tab);
 	}
+
+	@Override
+	public Hashtable<UUID, String> getJoueursParties() throws RemoteException {
+		Hashtable<UUID, String> tab = new Hashtable<UUID, String>();
+		
+		listeParties.forEach((k,v) -> {
+			if (v.getModeJeu().equals("duo") && v.getNbJoueurs() == 1)
+				tab.put(k, v.getNomJoueur1());
+		});
+		
+		return tab;
+	}
 }
