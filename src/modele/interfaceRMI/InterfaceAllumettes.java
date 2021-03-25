@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.UUID;
 
-import modele.pojo.PartieAllumettes;
-
 public interface InterfaceAllumettes extends Remote {
 	
 	
